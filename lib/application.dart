@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tic_tac_toe/main_page/main_page.dart';
+import 'package:flutter_tic_tac_toe/game/game.dart';
 
 void main() => runApp(new TicTacToe());
 
@@ -11,7 +11,7 @@ class TicTacToe extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MainPage(title: 'Tic Tac Toe'),
+      home: new Game(title: 'Tic Tac Toe'),
     );
   }
 }
