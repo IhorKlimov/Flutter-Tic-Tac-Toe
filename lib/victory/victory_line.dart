@@ -37,7 +37,7 @@ class VictoryLine extends CustomPainter {
 
   void _drawVerticalLine(int column, Size size, Canvas canvas) {
     if (column == 0) {
-      var x = size.width / 3 / 2 + 8.0;
+      var x = size.width / 3 / 2;
       var top = new Offset(x, 8.0);
       var bottom = new Offset(x, size.height - 8.0);
       canvas.drawLine(top, bottom, _paint);
@@ -48,7 +48,7 @@ class VictoryLine extends CustomPainter {
       canvas.drawLine(top, bottom, _paint);
     } else {
       var columnWidth = size.width / 3;
-      var x = columnWidth * 2 + columnWidth / 2 - 8.0;
+      var x = columnWidth * 2 + columnWidth / 2;
       var top = new Offset(x, 8.0);
       var bottom = new Offset(x, size.height - 8.0);
       canvas.drawLine(top, bottom, _paint);
@@ -57,7 +57,7 @@ class VictoryLine extends CustomPainter {
 
   void _drawHorizontalLine(int row, Size size, Canvas canvas) {
     if (row == 0) {
-      var y = size.height / 3 / 2 + 8.0;
+      var y = size.height / 3 / 2 ;
       var left = new Offset(8.0, y);
       var right = new Offset(size.width - 8.0, y);
       canvas.drawLine(left, right, _paint);
@@ -68,7 +68,7 @@ class VictoryLine extends CustomPainter {
       canvas.drawLine(left, right, _paint);
     } else {
       var columnHeight = size.height / 3;
-      var y = columnHeight * 2 + columnHeight / 2 - 8.0;
+      var y = columnHeight * 2 + columnHeight / 2 ;
       var left = new Offset(8.0, y);
       var right = new Offset(size.width - 8.0, y);
       canvas.drawLine(left, right, _paint);
