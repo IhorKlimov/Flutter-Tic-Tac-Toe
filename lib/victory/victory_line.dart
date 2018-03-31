@@ -87,11 +87,6 @@ class VictoryLine extends CustomPainter {
     }
   }
 
-  // Since this Sky painter has no fields, it always paints
-  // the same thing and semantics information is the same.
-  // Therefore we return false here. If we had fields (set
-  // from the constructor) then we would return true if any
-  // of them differed from the same fields on the oldDelegate.
   @override
   bool shouldRepaint(VictoryLine oldDelegate) => false;
 
