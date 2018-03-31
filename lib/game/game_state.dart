@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tic_tac_toe/ai/ai.dart';
 import 'package:flutter_tic_tac_toe/constants/constants.dart';
 import 'package:flutter_tic_tac_toe/game/game.dart';
+import 'package:flutter_tic_tac_toe/victory/victory.dart';
 import 'package:flutter_tic_tac_toe/victory/victory_checker.dart';
+import 'package:flutter_tic_tac_toe/victory/victory_line.dart';
 
 class GameState extends State<Game> {
   BuildContext _context;
@@ -16,7 +18,8 @@ class GameState extends State<Game> {
   Color playerColor, aiColor;
   AI ai;
   String playerChar = 'X', aiChar = 'O';
-  bool playersTurn = true, somebodyWon = false;
+  bool playersTurn = true;
+  Victory victory;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,8 @@ class GameState extends State<Game> {
         body: new Builder(builder: (BuildContext context) {
           _context = context;
           return new Center(
-              child: new Stack(children: [buildGrid(), buildField()]));
+              child: new Stack(
+                  children: [buildGrid(), buildField(), buildVictoryLine()]));
         }));
   }
 
@@ -129,6 +133,12 @@ class GameState extends State<Game> {
                 ))));
   }
 
+  Widget buildVictoryLine() {
+    return new AspectRatio(
+        aspectRatio: 1.0,
+        child: new CustomPaint(painter: new VictoryLine(victory)));
+  }
+
   void _displayPlayersTurn(int row, int column) {
     print('clicked on row $row column $column');
     playersTurn = false;
@@ -150,7 +160,7 @@ class GameState extends State<Game> {
   }
 
   bool _gameIsDone() {
-    return _allCellsAreTaken() || somebodyWon;
+    return _allCellsAreTaken() || victory != null;
   }
 
   bool _allCellsAreTaken() {
@@ -166,9 +176,8 @@ class GameState extends State<Game> {
   }
 
   void _checkForVictory() {
-    var victory = VictoryChecker.checkForVictory(field, playerChar);
+    victory = VictoryChecker.checkForVictory(field, playerChar);
     if (victory != null) {
-      somebodyWon = true;
       String message;
 
       if (victory.winner == Constants.PLAYER) {
@@ -186,7 +195,7 @@ class GameState extends State<Game> {
                 label: 'Retry',
                 onPressed: () {
                   setState(() {
-                    somebodyWon = false;
+                    victory = null;
                     field = [
                       ['', '', ''],
                       ['', '', ''],

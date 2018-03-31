@@ -19,7 +19,7 @@ class AI {
     if (_isCenterEmpty()) return;
     if (_aiIsCloseToWin()) return;
     if (_playerIsCloseToWin()) return;
-    if (playerHasOneChar()) return;
+    if (_playerHasOneChar()) return;
     _chooseRandom();
   }
 
@@ -77,18 +77,18 @@ class AI {
     return false;
   }
 
-  bool playerHasOneChar() {
-    return _playerHasOneChar(0, 0, 0, 1, 0, 2) ||
-        _playerHasOneChar(1, 0, 1, 1, 1, 2) ||
-        _playerHasOneChar(2, 0, 2, 1, 2, 2) ||
-        _playerHasOneChar(0, 0, 1, 0, 2, 0) ||
-        _playerHasOneChar(0, 1, 1, 1, 2, 1) ||
-        _playerHasOneChar(0, 2, 1, 2, 2, 2) ||
-        _playerHasOneChar(0, 0, 1, 1, 2, 2) ||
-        _playerHasOneChar(0, 2, 1, 1, 2, 0);
+  bool _playerHasOneChar() {
+    return _playerHasOneCharInLine(0, 0, 0, 1, 0, 2) ||
+        _playerHasOneCharInLine(1, 0, 1, 1, 1, 2) ||
+        _playerHasOneCharInLine(2, 0, 2, 1, 2, 2) ||
+        _playerHasOneCharInLine(0, 0, 1, 0, 2, 0) ||
+        _playerHasOneCharInLine(0, 1, 1, 1, 2, 1) ||
+        _playerHasOneCharInLine(0, 2, 1, 2, 2, 2) ||
+        _playerHasOneCharInLine(0, 0, 1, 1, 2, 2) ||
+        _playerHasOneCharInLine(0, 2, 1, 1, 2, 0);
   }
 
-  _playerHasOneChar(int r1, int c1, int r2, int c2, int r3, int c3) {
+  _playerHasOneCharInLine(int r1, int c1, int r2, int c2, int r3, int c3) {
     if (_field[r1][c1] == _playerChar &&
         _field[r2][c2].isEmpty &&
         _field[r3][c3].isEmpty) {
