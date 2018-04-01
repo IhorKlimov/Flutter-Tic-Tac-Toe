@@ -35,7 +35,11 @@ class GameState extends State<Game> {
           _context = context;
           return new Center(
               child: new Stack(
-                  children: [buildGrid(), buildField(), buildVictoryLine()]));
+                  children: [
+                    buildGrid(),
+                    buildField(),
+                    buildVictoryLine()
+                  ]));
         }));
   }
 
