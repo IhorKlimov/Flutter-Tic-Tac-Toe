@@ -23,6 +23,7 @@ class GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
+
     ai = new AI(field, playerChar, aiChar);
     playerColor = Theme.of(context).primaryColor;
     aiColor = Colors.orange;
@@ -35,11 +36,7 @@ class GameState extends State<Game> {
           _context = context;
           return new Center(
               child: new Stack(
-                  children: [
-                    buildGrid(),
-                    buildField(),
-                    buildVictoryLine()
-                  ]));
+                  children: [buildGrid(), buildField(), buildVictoryLine()]));
         }));
   }
 
