@@ -9,8 +9,6 @@ profile
 
 DerivedData/
 build/
-GeneratedPluginRegistrant.h
-GeneratedPluginRegistrant.m
 
 *.pbxuser
 *.mode1v3
@@ -31,12 +29,13 @@ xcuserdata
 Icon?
 .tags*
 
-/Flutter/app.flx
 /Flutter/app.zip
-/Flutter/flutter_assets/
 /Flutter/App.framework
 /Flutter/Flutter.framework
+/Flutter/flutter_assets/
 /Flutter/Generated.xcconfig
 /ServiceDefinitions.json
 
-Pods/
+Podfile
+Podfile.lock
+Pods

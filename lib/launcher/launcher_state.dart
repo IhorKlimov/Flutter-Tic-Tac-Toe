@@ -31,6 +31,10 @@ class LauncherState extends State<Launcher> {
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
+    _firebaseMessaging.getToken().then((String token){
+      print(token);
+    });
+
   }
   @override
   Widget build(BuildContext context) {
