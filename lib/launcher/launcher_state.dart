@@ -35,36 +35,32 @@ class LauncherState extends State<Launcher> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
+  Widget build(BuildContext context) => Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('singleGame');
+                },
+                padding: EdgeInsets.all(8.0),
+                child: Text('Single Mode', style: TextStyle(fontSize: 32.0))),
+            Container(
+                margin: EdgeInsets.only(top: 16.0),
+                child: MaterialButton(
+                    padding: EdgeInsets.all(8.0),
+                    onPressed: () {
+                      openUserList();
+                    },
+                    child:
+                        Text('Multiplayer', style: TextStyle(fontSize: 34.0)))),
+          ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('singleGame');
-                  },
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Single Mode', style: TextStyle(fontSize: 32.0))),
-              Container(
-                  margin: EdgeInsets.only(top: 16.0),
-                  child: MaterialButton(
-                      padding: EdgeInsets.all(8.0),
-                      onPressed: () {
-                        _signInWithGoogle().then((user) {
-                          _saveUserToFirebase(user);
-                        });
-                      },
-                      child: Text('Multiplayer',
-                          style: TextStyle(fontSize: 34.0)))),
-            ],
-          ),
-        ));
-  }
+      ));
 
   void _showItemDialog(BuildContext context, Map<String, dynamic> message) {
     print(context == null);
@@ -81,25 +77,23 @@ class LauncherState extends State<Launcher> {
     });
   }
 
-  Widget _buildDialog(BuildContext context) {
-    return AlertDialog(
-      content: Text("Some text"),
-      actions: <Widget>[
-        FlatButton(
-          child: Text('CLOSE'),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
-        ),
-        FlatButton(
-          child: Text('SHOW'),
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
-        ),
-      ],
-    );
-  }
+  Widget _buildDialog(BuildContext context) => AlertDialog(
+        content: Text("Some text"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('CLOSE'),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          FlatButton(
+            child: Text('SHOW'),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
+        ],
+      );
 
   Future<FirebaseUser> _signInWithGoogle() async {
     var user = await _auth.currentUser();
@@ -123,19 +117,25 @@ class LauncherState extends State<Launcher> {
     return user;
   }
 
-  void _saveUserToFirebase(FirebaseUser user) async {
+  void openUserList() async {
+    FirebaseUser user = await _signInWithGoogle();
+    await _saveUserToFirebase(user);
+    Navigator.of(context).pushNamed('userList');
+  }
+
+  Future<void> _saveUserToFirebase(FirebaseUser user) async {
+    print('saving user to firebase');
     var token = await _firebaseMessaging.getToken();
     var update = {
       Constants.NAME: user.displayName,
       Constants.PHOTO_URL: user.photoUrl,
       Constants.PUSH_ID: token
     };
-    FirebaseDatabase.instance
+    return FirebaseDatabase.instance
         .reference()
         .child('users')
         .child(user.uid)
         .update(update);
-    print('saved user to firebase');
   }
 
   // Not sure how FCM token gets updated yet
