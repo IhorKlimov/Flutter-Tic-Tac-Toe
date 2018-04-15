@@ -10,3 +10,9 @@ const DRAFT = 12;
 const NAME = 'name';
 const PHOTO_URL = 'photoUrl';
 const PUSH_ID = 'pushId';
+
+const USERS = 'users';
+
+const SINGLE_GAME = 'singleGame';
+const MULTIPLAYER = 'Multiplayer';
+const USER_LIST = 'userList';

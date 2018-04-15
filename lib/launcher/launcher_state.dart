@@ -45,7 +45,7 @@ class LauncherState extends State<Launcher> {
           children: [
             MaterialButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('singleGame');
+                  Navigator.of(context).pushNamed(SINGLE_GAME);
                 },
                 padding: EdgeInsets.all(8.0),
                 child: Text('Single Mode', style: TextStyle(fontSize: 32.0))),
@@ -57,7 +57,7 @@ class LauncherState extends State<Launcher> {
                       openUserList();
                     },
                     child:
-                        Text('Multiplayer', style: TextStyle(fontSize: 34.0)))),
+                        Text(MULTIPLAYER, style: TextStyle(fontSize: 34.0)))),
           ],
         ),
       ));
@@ -111,7 +111,7 @@ class LauncherState extends State<Launcher> {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      print("signed in " + user.displayName);
+      print("signed in as " + user.displayName);
     }
 
     return user;
@@ -133,7 +133,7 @@ class LauncherState extends State<Launcher> {
     };
     return FirebaseDatabase.instance
         .reference()
-        .child('users')
+        .child(USERS)
         .child(user.uid)
         .update(update);
   }
@@ -146,7 +146,7 @@ class LauncherState extends State<Launcher> {
       var token = await _firebaseMessaging.getToken();
       FirebaseDatabase.instance
           .reference()
-          .child('users')
+          .child(USERS)
           .child(currentUser.uid)
           .update({PUSH_ID: token});
       print('updated FCM token');

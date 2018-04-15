@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tic_tac_toe/constants/constants.dart';
 import 'package:flutter_tic_tac_toe/game/game.dart';
 import 'package:flutter_tic_tac_toe/launcher/launcher.dart';
 import 'package:flutter_tic_tac_toe/user_list/user_list.dart';
@@ -14,10 +15,10 @@ class TicTacToe extends StatelessWidget {
         ),
         home: Launcher(title: 'Tic Tac Toe'),
         routes: <String, WidgetBuilder>{
-          'singleGame': (BuildContext context) => Game(title: 'Tic Tac Toe'),
-          'multiplayerGame': (BuildContext context) =>
+          SINGLE_GAME: (BuildContext context) => Game(title: 'Tic Tac Toe'),
+          MULTIPLAYER: (BuildContext context) =>
               Game(title: 'Tic Tac Toe'),
-          'userList': (BuildContext context) => UserList(title: 'All users')
+          USER_LIST: (BuildContext context) => UserList(title: 'All users')
         },
       );
 }

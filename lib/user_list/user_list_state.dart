@@ -42,7 +42,7 @@ class UserListState extends State<UserList> {
 
   void _fetchUsers() async {
     var snapshot =
-        await FirebaseDatabase.instance.reference().child('users').once();
+        await FirebaseDatabase.instance.reference().child(USERS).once();
 
     Map<String, dynamic> users = snapshot.value.cast<String, dynamic>();
     users.forEach((userId, userMap) {
