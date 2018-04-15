@@ -24,13 +24,13 @@ class VictoryLine extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     print('paint');
     if (_victory != null) {
-      if (_victory.lineType == Constants.HORIZONTAL) {
+      if (_victory.lineType == HORIZONTAL) {
         _drawHorizontalLine(_victory.row, size, canvas);
-      } else if (_victory.lineType == Constants.VERTICAL) {
+      } else if (_victory.lineType == VERTICAL) {
         _drawVerticalLine(_victory.col, size, canvas);
-      } else if (_victory.lineType == Constants.DIAGONAL_ASCENDING) {
+      } else if (_victory.lineType == DIAGONAL_ASCENDING) {
         _drawDiagonalLine(true, size, canvas);
-      } else if (_victory.lineType == Constants.DIAGONAL_DESCENDING)
+      } else if (_victory.lineType == DIAGONAL_DESCENDING)
         _drawDiagonalLine(false, size, canvas);
     }
   }

@@ -162,11 +162,11 @@ class GameState extends State<Game> {
     if (victory != null) {
       String message;
 
-      if (victory.winner == Constants.PLAYER) {
+      if (victory.winner == PLAYER_WINNER) {
         message = 'You Win!';
-      } else if (victory.winner == Constants.AI) {
+      } else if (victory.winner == AI_WINNER) {
         message = 'AI Win!';
-      } else if (victory.winner == Constants.DRAFT) {
+      } else if (victory.winner == DRAFT) {
         message = 'Draft';
       }
       print(message);

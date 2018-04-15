@@ -127,9 +127,9 @@ class LauncherState extends State<Launcher> {
     print('saving user to firebase');
     var token = await _firebaseMessaging.getToken();
     var update = {
-      Constants.NAME: user.displayName,
-      Constants.PHOTO_URL: user.photoUrl,
-      Constants.PUSH_ID: token
+      NAME: user.displayName,
+      PHOTO_URL: user.photoUrl,
+      PUSH_ID: token
     };
     return FirebaseDatabase.instance
         .reference()
@@ -148,7 +148,7 @@ class LauncherState extends State<Launcher> {
           .reference()
           .child('users')
           .child(currentUser.uid)
-          .update({Constants.PUSH_ID: token});
+          .update({PUSH_ID: token});
       print('updated FCM token');
     }
   }

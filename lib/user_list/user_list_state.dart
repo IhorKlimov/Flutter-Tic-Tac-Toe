@@ -30,13 +30,13 @@ class UserListState extends State<UserList> {
       child: InkWell(
           onTap: () {
             Scaffold.of(context).showSnackBar(
-                SnackBar(content: Text('clicked on ${_users[index].name}')));
+                SnackBar(content: Text('Clicked on ${_users[index].name}')));
           },
           child: Container(
               padding: EdgeInsets.all(16.0),
               alignment: Alignment.centerLeft,
               child: Text(
-                '${_users[index].name}',
+                '${_users[index].name}',// Some weird bugs if passed without quotes
                 style: TextStyle(fontSize: 18.0),
               ))));
 
@@ -57,13 +57,13 @@ class UserListState extends State<UserList> {
   User _parseUser(String userId, Map<dynamic, dynamic> user) {
     String name, photoUrl, pushId;
     user.forEach((key, value) {
-      if (key == Constants.NAME) {
+      if (key == NAME) {
         name = value as String;
       }
-      if (key == Constants.PHOTO_URL) {
+      if (key == PHOTO_URL) {
         photoUrl = value as String;
       }
-      if (key == Constants.PUSH_ID) {
+      if (key == PUSH_ID) {
         pushId = value as String;
       }
     });
