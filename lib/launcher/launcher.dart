@@ -7,5 +7,5 @@ class Launcher extends StatefulWidget {
   final String title;
 
   @override
-  LauncherState createState() => new LauncherState();
+  LauncherState createState() => LauncherState();
 }

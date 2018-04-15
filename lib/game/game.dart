@@ -7,7 +7,5 @@ class Game extends StatefulWidget {
   final String title;
 
   @override
-  GameState createState() => new GameState();
+  GameState createState() => GameState();
 }
-
-

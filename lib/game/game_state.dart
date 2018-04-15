@@ -23,95 +23,89 @@ class GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-
-    ai = new AI(field, playerChar, aiChar);
+    ai = AI(field, playerChar, aiChar);
     playerColor = Theme.of(context).primaryColor;
     aiColor = Colors.orange;
 
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(widget.title),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
         ),
-        body: new Builder(builder: (BuildContext context) {
+        body: Builder(builder: (BuildContext context) {
           _context = context;
-          return new Center(
-              child: new Stack(
+          return Center(
+              child: Stack(
                   children: [buildGrid(), buildField(), buildVictoryLine()]));
         }));
   }
 
   Widget buildGrid() {
-    return new AspectRatio(
+    return AspectRatio(
         aspectRatio: 1.0,
-        child: new Stack(
+        child: Stack(
           children: [
-            new Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildHorizontalLine,
-                  buildHorizontalLine,
-                ]),
-            new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildVerticalLine,
-                  buildVerticalLine,
-                ])
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              buildHorizontalLine,
+              buildHorizontalLine,
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              buildVerticalLine,
+              buildVerticalLine,
+            ])
           ],
         ));
   }
 
   Container get buildVerticalLine {
-    return new Container(
-        margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+    return Container(
+        margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
         color: Colors.grey,
         width: 5.0);
   }
 
   Container get buildHorizontalLine {
-    return new Container(
-        margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+    return Container(
+        margin: EdgeInsets.only(left: 16.0, right: 16.0),
         color: Colors.grey,
         height: 5.0);
   }
 
   Widget buildField() {
-    return new AspectRatio(
+    return AspectRatio(
         aspectRatio: 1.0,
-        child: new Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              new Expanded(
-                  child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                    buildCell(0, 0),
-                    buildCell(0, 1),
-                    buildCell(0, 2),
-                  ])),
-              new Expanded(
-                  child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                    buildCell(1, 0),
-                    buildCell(1, 1),
-                    buildCell(1, 2),
-                  ])),
-              new Expanded(
-                  child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                    buildCell(2, 0),
-                    buildCell(2, 1),
-                    buildCell(2, 2),
-                  ]))
-            ]));
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Expanded(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                buildCell(0, 0),
+                buildCell(0, 1),
+                buildCell(0, 2),
+              ])),
+          Expanded(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                buildCell(1, 0),
+                buildCell(1, 1),
+                buildCell(1, 2),
+              ])),
+          Expanded(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                buildCell(2, 0),
+                buildCell(2, 1),
+                buildCell(2, 2),
+              ]))
+        ]));
   }
 
   Widget buildCell(int row, int column) {
-    return new AspectRatio(
+    return AspectRatio(
         aspectRatio: 1.0,
-        child: new MaterialButton(
+        child: MaterialButton(
             onPressed: () {
               if (!_gameIsDone() && playersTurn) {
                 setState(() {
@@ -123,8 +117,8 @@ class GameState extends State<Game> {
                 });
               }
             },
-            child: new Text(field[row][column],
-                style: new TextStyle(
+            child: Text(field[row][column],
+                style: TextStyle(
                   fontSize: 82.0,
                   fontFamily: 'Chalk',
                   color: field[row][column].isNotEmpty &&
@@ -135,9 +129,8 @@ class GameState extends State<Game> {
   }
 
   Widget buildVictoryLine() {
-    return new AspectRatio(
-        aspectRatio: 1.0,
-        child: new CustomPaint(painter: new VictoryLine(victory)));
+    return AspectRatio(
+        aspectRatio: 1.0, child: CustomPaint(painter: VictoryLine(victory)));
   }
 
   void _displayPlayersTurn(int row, int column) {
@@ -149,7 +142,7 @@ class GameState extends State<Game> {
   }
 
   void _displayAiTurn() {
-    new Timer(const Duration(milliseconds: 600), () {
+    Timer(Duration(milliseconds: 600), () {
       setState(() {
         // AI turn
         var aiDecision = ai.getDecision();
@@ -189,10 +182,10 @@ class GameState extends State<Game> {
         message = 'Draft';
       }
       print(message);
-      Scaffold.of(_context).showSnackBar(new SnackBar(
-            content: new Text(message),
-            duration: const Duration(minutes: 1),
-            action: new SnackBarAction(
+      Scaffold.of(_context).showSnackBar(SnackBar(
+            content: Text(message),
+            duration: Duration(minutes: 1),
+            action: SnackBarAction(
                 label: 'Retry',
                 onPressed: () {
                   setState(() {

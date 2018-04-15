@@ -7,6 +7,9 @@ dependencies:
 
   cupertino_icons: 0.1.2
   firebase_messaging: 0.2.1
+  google_sign_in: 3.0.1
+  firebase_auth: 0.5.4
+  firebase_database: 0.4.4
 
 dev_dependencies:
   flutter_test:

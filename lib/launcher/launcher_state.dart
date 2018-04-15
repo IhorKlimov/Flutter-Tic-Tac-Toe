@@ -1,12 +1,16 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_tic_tac_toe/constants/constants.dart';
 import 'package:flutter_tic_tac_toe/launcher/launcher.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class LauncherState extends State<Launcher> {
-  final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -14,62 +18,60 @@ class LauncherState extends State<Launcher> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
         print("onMessage: $message");
-        _showItemDialog(context, message);
+//        _showItemDialog(context, message);
       },
       onLaunch: (Map<String, dynamic> message) {
         print("onLaunch: $message");
-        Navigator.pushNamed(context, 'singleGame');
+//        Navigator.pushNamed(context, 'singleGame');
       },
       onResume: (Map<String, dynamic> message) {
         print("onResume: $message");
-        _showItemDialog(context, message);
+//        _showItemDialog(context, message);
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-    _firebaseMessaging.getToken().then((String token){
-      print(token);
-    });
-
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _updateFcmToken();
   }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(widget.title),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
         ),
-        body: new Center(
-          child: new Column(
+        body: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              new MaterialButton(
+              MaterialButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed('singleGame');
                   },
-                  padding: const EdgeInsets.all(8.0),
-                  child: new Text('Single Mode',
-                      style: new TextStyle(fontSize: 32.0))),
-              new Container(
-                  margin: const EdgeInsets.only(top: 16.0),
-                  child: new MaterialButton(
-                      padding: const EdgeInsets.all(8.0),
-                      onPressed: () {},
-                      child: new Text('Multiplayer',
-                          style: new TextStyle(fontSize: 34.0)))),
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Single Mode', style: TextStyle(fontSize: 32.0))),
+              Container(
+                  margin: EdgeInsets.only(top: 16.0),
+                  child: MaterialButton(
+                      padding: EdgeInsets.all(8.0),
+                      onPressed: () {
+                        _signInWithGoogle().then((user) {
+                          _saveUserToFirebase(user);
+                        });
+                      },
+                      child: Text('Multiplayer',
+                          style: TextStyle(fontSize: 34.0)))),
             ],
           ),
         ));
   }
+
   void _showItemDialog(BuildContext context, Map<String, dynamic> message) {
     print(context == null);
 
     print('show dialog ');
 
-    new Timer(const Duration(milliseconds: 200), (){
+    Timer(Duration(milliseconds: 200), () {
       showDialog<bool>(
         context: context,
         builder: (_) => _buildDialog(context),
@@ -80,22 +82,74 @@ class LauncherState extends State<Launcher> {
   }
 
   Widget _buildDialog(BuildContext context) {
-    return new AlertDialog(
-      content: new Text("Some text"),
+    return AlertDialog(
+      content: Text("Some text"),
       actions: <Widget>[
-        new FlatButton(
-          child: const Text('CLOSE'),
+        FlatButton(
+          child: Text('CLOSE'),
           onPressed: () {
             Navigator.pop(context, false);
           },
         ),
-        new FlatButton(
-          child: const Text('SHOW'),
+        FlatButton(
+          child: Text('SHOW'),
           onPressed: () {
             Navigator.pop(context, true);
           },
         ),
       ],
     );
+  }
+
+  Future<FirebaseUser> _signInWithGoogle() async {
+    var user = await _auth.currentUser();
+    if (user == null) {
+      GoogleSignInAccount googleUser = _googleSignIn.currentUser;
+      if (googleUser == null) {
+        googleUser = await _googleSignIn.signInSilently();
+        if (googleUser == null) {
+          googleUser = await _googleSignIn.signIn();
+        }
+      }
+
+      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      FirebaseUser user = await _auth.signInWithGoogle(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      print("signed in " + user.displayName);
+    }
+
+    return user;
+  }
+
+  void _saveUserToFirebase(FirebaseUser user) async {
+    var token = await _firebaseMessaging.getToken();
+    var update = {
+      Constants.NAME: user.displayName,
+      Constants.PHOTO_URL: user.photoUrl,
+      Constants.PUSH_ID: token
+    };
+    FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(user.uid)
+        .update(update);
+    print('saved user to firebase');
+  }
+
+  // Not sure how FCM token gets updated yet
+  // just to make sure correct one is always set
+  void _updateFcmToken() async {
+    var currentUser = await _auth.currentUser();
+    if (currentUser != null) {
+      var token = await _firebaseMessaging.getToken();
+      FirebaseDatabase.instance
+          .reference()
+          .child('users')
+          .child(currentUser.uid)
+          .update({Constants.PUSH_ID: token});
+      print('updated FCM token');
+    }
   }
 }

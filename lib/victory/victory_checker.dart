@@ -8,17 +8,17 @@ class VictoryChecker {
     if (field[0][0].isNotEmpty &&
         field[0][0] == field[0][1] &&
         field[0][0] == field[0][2]) {
-      v = new Victory(0, 0, Constants.HORIZONTAL,
+      v = Victory(0, 0, Constants.HORIZONTAL,
           field[0][0] == playerChar ? Constants.PLAYER : Constants.AI);
     } else if (field[1][0].isNotEmpty &&
         field[1][0] == field[1][1] &&
         field[1][0] == field[1][2]) {
-      v = new Victory(1, 0, Constants.HORIZONTAL,
+      v = Victory(1, 0, Constants.HORIZONTAL,
           field[1][0] == playerChar ? Constants.PLAYER : Constants.AI);
     } else if (field[2][0].isNotEmpty &&
         field[2][0] == field[2][1] &&
         field[2][0] == field[2][2]) {
-      v = new Victory(2, 0, Constants.HORIZONTAL,
+      v = Victory(2, 0, Constants.HORIZONTAL,
           field[2][0] == playerChar ? Constants.PLAYER : Constants.AI);
     }
 
@@ -26,17 +26,17 @@ class VictoryChecker {
     else if (field[0][0].isNotEmpty &&
         field[0][0] == field[1][0] &&
         field[0][0] == field[2][0]) {
-      v = new Victory(0, 0, Constants.VERTICAL,
+      v = Victory(0, 0, Constants.VERTICAL,
           field[0][0] == playerChar ? Constants.PLAYER : Constants.AI);
     } else if (field[0][1].isNotEmpty &&
         field[0][1] == field[1][1] &&
         field[0][1] == field[2][1]) {
-      v = new Victory(0, 1, Constants.VERTICAL,
+      v = Victory(0, 1, Constants.VERTICAL,
           field[0][1] == playerChar ? Constants.PLAYER : Constants.AI);
     } else if (field[0][2].isNotEmpty &&
         field[0][2] == field[1][2] &&
         field[0][2] == field[2][2]) {
-      v = new Victory(0, 2, Constants.VERTICAL,
+      v = Victory(0, 2, Constants.VERTICAL,
           field[0][2] == playerChar ? Constants.PLAYER : Constants.AI);
     }
 
@@ -44,12 +44,12 @@ class VictoryChecker {
     else if (field[0][0].isNotEmpty &&
         field[0][0] == field[1][1] &&
         field[0][0] == field[2][2]) {
-      v = new Victory(0, 0, Constants.DIAGONAL_DESCENDING,
+      v = Victory(0, 0, Constants.DIAGONAL_DESCENDING,
           field[0][0] == playerChar ? Constants.PLAYER : Constants.AI);
     } else if (field[2][0].isNotEmpty &&
         field[2][0] == field[1][1] &&
         field[2][0] == field[0][2]) {
-      v = new Victory(2, 0, Constants.DIAGONAL_ASCENDING,
+      v = Victory(2, 0, Constants.DIAGONAL_ASCENDING,
           field[2][0] == playerChar ? Constants.PLAYER : Constants.AI);
     } else if (field[0][0].isNotEmpty &&
         field[0][1].isNotEmpty &&
@@ -60,7 +60,7 @@ class VictoryChecker {
         field[2][0].isNotEmpty &&
         field[2][1].isNotEmpty &&
         field[2][2].isNotEmpty) {
-      v = new Victory(-1, -1, -1, Constants.DRAFT);
+      v = Victory(-1, -1, -1, Constants.DRAFT);
     }
 
     return v;

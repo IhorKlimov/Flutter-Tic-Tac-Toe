@@ -1,10 +1,14 @@
 class Constants {
-  static const int HORIZONTAL = 0;
-  static const int VERTICAL = 1;
-  static const int DIAGONAL_ASCENDING = 2;
-  static const int DIAGONAL_DESCENDING = 3;
+  static const HORIZONTAL = 0;
+  static const VERTICAL = 1;
+  static const DIAGONAL_ASCENDING = 2;
+  static const DIAGONAL_DESCENDING = 3;
 
-  static const int PLAYER = 10;
-  static const int AI = 11;
-  static const int DRAFT = 12;
+  static const PLAYER = 10;
+  static const AI = 11;
+  static const DRAFT = 12;
+
+  static const NAME = 'name';
+  static const PHOTO_URL = 'photoUrl';
+  static const PUSH_ID = 'pushId';
 }
