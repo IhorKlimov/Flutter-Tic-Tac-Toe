@@ -82,7 +82,8 @@ class UserListState extends State<UserList> {
     var userId = prefs.getString(USER_ID);
 
     var base = 'https://us-central1-tictactoe-64902.cloudfunctions.net';
-    String dataURL = '$base/sendNotification2?to=${user.pushId}&fromPushId=$pushId&fromId=$userId&fromName=$username&type=invite';
+    String dataURL = '$base/sendNotification2?to=${user
+        .pushId}&fromPushId=$pushId&fromId=$userId&fromName=$username&type=invite';
     print(dataURL);
     String gameId = '$userId-${user.id}';
     FirebaseDatabase.instance

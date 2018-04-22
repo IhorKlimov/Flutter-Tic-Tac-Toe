@@ -13,14 +13,14 @@ import 'package:flutter_tic_tac_toe/common/util.dart';
 import 'package:http/http.dart' as http;
 
 class LauncherState extends State<Launcher> {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
-    _firebaseMessaging.configure(
+    firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
         print("onMessage: $message");
         handleMessage(message);
@@ -34,7 +34,7 @@ class LauncherState extends State<Launcher> {
         handleMessage(message);
       },
     );
-    _firebaseMessaging.requestNotificationPermissions(
+    firebaseMessaging.requestNotificationPermissions(
         IosNotificationSettings(sound: true, badge: true, alert: true));
     updateFcmToken();
   }
@@ -67,7 +67,7 @@ class LauncherState extends State<Launcher> {
         ),
       ));
 
-  void showItemDialog(BuildContext context, Map<String, dynamic> message) {
+  void showInvitePopup(BuildContext context, Map<String, dynamic> message) {
     print(context == null);
 
     Timer(Duration(milliseconds: 200), () {
@@ -75,8 +75,6 @@ class LauncherState extends State<Launcher> {
         context: context,
         builder: (_) => buildDialog(context, message),
       );
-
-//      Navigator.of(context).pushNamed('singleGame');
     });
   }
 
@@ -130,7 +128,7 @@ class LauncherState extends State<Launcher> {
 
   Future<void> saveUserToFirebase(FirebaseUser user) async {
     print('saving user to firebase');
-    var token = await _firebaseMessaging.getToken();
+    var token = await firebaseMessaging.getToken();
 
     await saveUserToPreferences(user.uid, user.displayName, token);
 
@@ -158,7 +156,8 @@ class LauncherState extends State<Launcher> {
   void updateFcmToken() async {
     var currentUser = await _auth.currentUser();
     if (currentUser != null) {
-      var token = await _firebaseMessaging.getToken();
+      var token = await firebaseMessaging.getToken();
+      print(token);
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString(PUSH_ID, token);
@@ -203,7 +202,7 @@ class LauncherState extends State<Launcher> {
 
     print(type);
     if (type == 'invite') {
-      showItemDialog(context, message);
+      showInvitePopup(context, message);
     } else if (type == 'accept') {
       var currentUser = await _auth.currentUser();
 
