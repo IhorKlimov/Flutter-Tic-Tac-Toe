@@ -1,4 +1,4 @@
-import 'package:flutter_tic_tac_toe/constants/constants.dart';
+import 'package:flutter_tic_tac_toe/common/constants.dart';
 import 'package:flutter_tic_tac_toe/victory/victory.dart';
 
 class VictoryChecker {
