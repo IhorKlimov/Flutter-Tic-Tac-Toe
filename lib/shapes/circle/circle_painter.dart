@@ -14,7 +14,7 @@ class CirclePainter extends CustomPainter {
   }
 
   void paint(Canvas canvas, Size size) {
-    var rect = Offset(4.0, 4.0) & Size(size.width - 8.0, size.height - 8.0);
+    var rect = Offset(5.0, 5.0) & Size(size.width - 10.0, size.height - 10.0);
     canvas.drawArc(rect, -pi / 2, pi * 2 * _fraction, false, _paint);
   }
 
