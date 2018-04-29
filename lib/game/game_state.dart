@@ -8,6 +8,8 @@ import 'package:flutter_tic_tac_toe/game/game.dart';
 import 'package:flutter_tic_tac_toe/victory/victory.dart';
 import 'package:flutter_tic_tac_toe/victory/victory_checker.dart';
 import 'package:flutter_tic_tac_toe/victory/victory_line.dart';
+import 'package:flutter_tic_tac_toe/shapes/circle/circle..dart';
+import 'package:flutter_tic_tac_toe/shapes/cross/cross.dart';
 
 class GameState extends State<Game> {
   BuildContext _context;
@@ -16,7 +18,6 @@ class GameState extends State<Game> {
     ['', '', ''],
     ['', '', '']
   ];
-  Color blue, orange;
   AI ai;
   String playerChar = 'X', aiChar = 'O';
   bool playersTurn = true;
@@ -46,7 +47,11 @@ class GameState extends State<Game> {
             setState(() {
               field[row][column] = event.snapshot.value;
               playersTurn = true;
-              checkForVictory();
+              Timer(Duration(milliseconds: 600), () {
+                setState(() {
+                  checkForVictory();
+                });
+              });
             });
           }
         } else if (key == 'restart') {
@@ -70,14 +75,13 @@ class GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
+    print('game build');
     print(type);
     print(me);
     print(gameId);
     print(withId);
 
     ai = AI(field, playerChar, aiChar);
-    blue = Theme.of(context).primaryColor;
-    orange = Colors.orange;
 
     return Scaffold(
         appBar: AppBar(
@@ -148,8 +152,8 @@ class GameState extends State<Game> {
 
   Widget buildCell(int row, int column) => AspectRatio(
       aspectRatio: 1.0,
-      child: MaterialButton(
-          onPressed: () {
+      child: GestureDetector(
+          onTap: () {
             if (!gameIsDone() && playersTurn) {
               setState(() {
                 displayPlayersTurn(row, column);
@@ -160,12 +164,20 @@ class GameState extends State<Game> {
               });
             }
           },
-          child: Text(field[row][column],
-              style: TextStyle(
-                fontSize: 82.0,
-                fontFamily: 'Chalk',
-                color: field[row][column] == 'X' ? blue : orange,
-              ))));
+          child: buildCellItem(row, column)));
+
+  Widget buildCellItem(int row, int column) {
+    var cell = field[row][column];
+    if (cell.isNotEmpty) {
+      if (cell == 'X') {
+        return Container(padding: EdgeInsets.all(24.0), child: Cross());
+      } else {
+        return Container(padding: EdgeInsets.all(24.0), child: Circle());
+      }
+    } else {
+      return null;
+    }
+  }
 
   Widget buildVictoryLine() => AspectRatio(
       aspectRatio: 1.0, child: CustomPaint(painter: VictoryLine(victory)));
@@ -184,17 +196,25 @@ class GameState extends State<Game> {
           .set(me);
     }
 
-    checkForVictory();
+    Timer(Duration(milliseconds: 600), () {
+      setState(() {
+        checkForVictory();
+      });
+    });
   }
 
   void displayAiTurn() {
-    Timer(Duration(milliseconds: 600), () {
+    Timer(Duration(milliseconds: 1000), () {
       setState(() {
         // AI turn
         var aiDecision = ai.getDecision();
         field[aiDecision.row][aiDecision.column] = aiChar;
         playersTurn = true;
-        checkForVictory();
+        Timer(Duration(milliseconds: 600), () {
+          setState(() {
+            checkForVictory();
+          });
+        });
       });
     });
   }
@@ -229,26 +249,26 @@ class GameState extends State<Game> {
       }
       print(message);
       Scaffold.of(_context).showSnackBar(SnackBar(
-        content: Text(message),
-        duration: Duration(minutes: 1),
-        action: SnackBarAction(
-            label: 'Retry',
-            onPressed: () {
-              if (type == null) {
-                setState(() {
-                  victory = null;
-                  field = [
-                    ['', '', ''],
-                    ['', '', ''],
-                    ['', '', '']
-                  ];
-                  playersTurn = true;
-                });
-              } else {
-                restart();
-              }
-            }),
-      ));
+            content: Text(message),
+            duration: Duration(minutes: 1),
+            action: SnackBarAction(
+                label: 'Retry',
+                onPressed: () {
+                  if (type == null) {
+                    setState(() {
+                      victory = null;
+                      field = [
+                        ['', '', ''],
+                        ['', '', ''],
+                        ['', '', '']
+                      ];
+                      playersTurn = true;
+                    });
+                  } else {
+                    restart();
+                  }
+                }),
+          ));
     }
   }
 
