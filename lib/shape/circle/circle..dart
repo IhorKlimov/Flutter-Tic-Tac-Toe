@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tic_tac_toe/shapes/circle/circle_painter.dart';
+import 'package:flutter_tic_tac_toe/shape/circle/circle_painter.dart';
 
 class Circle extends StatefulWidget {
   @override

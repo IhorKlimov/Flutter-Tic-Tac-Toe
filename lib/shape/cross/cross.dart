@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tic_tac_toe/shapes/cross/cross_painter.dart';
+import 'package:flutter_tic_tac_toe/shape/cross/cross_painter.dart';
 
 class Cross extends StatefulWidget {
   @override

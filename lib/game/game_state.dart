@@ -9,7 +9,7 @@ import 'package:flutter_tic_tac_toe/victory/victory.dart';
 import 'package:flutter_tic_tac_toe/victory/victory_checker.dart';
 import 'package:flutter_tic_tac_toe/victory/victory_line.dart';
 import 'package:flutter_tic_tac_toe/shapes/circle/circle..dart';
-import 'package:flutter_tic_tac_toe/shapes/cross/cross.dart';
+import 'package:flutter_tic_tac_toe/shape/cross/cross.dart';
 
 class GameState extends State<Game> {
   BuildContext _context;
