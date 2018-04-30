@@ -7,6 +7,3 @@ Tic Tac Toe game with Firebase multiplayer written in Flutter that can run both 
 
 ## Backend
 Check [here](https://github.com/IhorKlimov/Android-TicTacToe-Backend)
-
-## Getting started with Flutter
-Check official [documentation](https://flutter.io/)
