@@ -79,7 +79,8 @@ class LauncherState extends State<Launcher> {
   }
 
   Widget buildDialog(BuildContext context, Map<String, dynamic> message) {
-    var fromName = getValueFromMap(message, 'fromName');
+    var noti = (message["data"]);
+    var fromName = noti['fromName'];
 
     return AlertDialog(
       content: Text('$fromName invites you to play!'),
@@ -172,8 +173,9 @@ class LauncherState extends State<Launcher> {
   }
 
   void accept(Map<String, dynamic> message) async {
-    String fromPushId = getValueFromMap(message, 'fromPushId');
-    String fromId = getValueFromMap(message, 'fromId');
+    var noti = (message["data"]);
+    String fromPushId = noti['fromPushId'];
+    String fromId = noti['fromId'];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var username = prefs.getString(USER_NAME);
     var pushId = prefs.getString(PUSH_ID);
@@ -197,8 +199,9 @@ class LauncherState extends State<Launcher> {
   }
 
   void handleMessage(Map<String, dynamic> message) async {
-    var type = getValueFromMap(message, 'type');
-    var fromId = getValueFromMap(message, 'fromId');
+    var noti = (message["data"]);
+    var type = noti['type'];
+    var fromId = noti['fromId'];
 
     print(type);
     if (type == 'invite') {
